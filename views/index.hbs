@@ -1,0 +1,103 @@
+	<div class="container">
+    	<form name="frm" method="POST" onsubmit="return checkValid(frm)">
+        	<h1 style="text-align:center"><span class="label label-default">{{title}}</span></h1>
+        	<div class="form-group row">
+        		<label for="firstnum" class="col-sm-2 col-form-label">First Number</label>
+           		<div class="col-sm-10">
+            		<input class="form-control" id="firstnum" name="firstnum" value="{{firstnum}}" onblur="inputCheck()">
+            	</div>
+        	</div>
+        	<div class="form-group row">
+        	<label for="secondnum" class="col-sm-2 col-form-label">Second Number</label>
+            	<div class="col-sm-10">
+            		<input class="form-control" id="secondnum" name="secondnum" value="{{secondnum}}" onblur="inputCheck()">
+            	</div>
+        	</div>
+            <fieldset class="form-group">
+            	<div class="row">
+                	<legend class="col-form-label col-sm-2 pt-0">Calculation</legend>
+                    <div class="col-sm-10">
+                    	<div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op1" value="plus" {{pluschecked}}>
+                            <label class="form-check-label" for="Op1">Summation</label>
+                        </div>
+                        <div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op2" value="subtract" {{subchecked}}>
+                            <label class="form-check-label" for="Op2">Subtraction</label>
+                        </div>
+                        <div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op3" value="multiple" {{mulchecked}}>
+                            <label class="form-check-label" for="Op3">Multiplication</label>
+                        </div>
+                        <div class="form-check">
+                        	<input class="form-check-input" type="radio" name="Op" id="Op4" value="divide" {{divchecked}}>
+                            <label class="form-check-label" for="Op4">Division</label>
+                        </div>
+                    </div>
+                </div>                
+            </fieldset>
+            <div class="form-group-row">
+            	<div class="col-sm-2">
+                	<button type="submit" class="btn btn-primary btn-block">Calculate</button>
+                </div>
+            </div>
+            <div class="form-group row">
+				<label for="result" class="col-sm-2 col-form-label">Result</label>
+				<div class="col-sm-10">
+			  		<input type="number" class="form-control" id="result" value="{{result}}" style="background-color:white" readonly>
+				</div>
+			</div>
+            <div class="form-group row">
+				<label class="col-sm-2 col-form-label">Notification</label>
+                <div class="col-sm">
+			  		<input class="form-control-plaintext" id="errorNotice" style="color:red;font-style:italic" readonly>
+				</div>				
+			</div>
+    		</form>
+    	</div>
+	<script type="text/javascript">
+		function inputCheck()
+        	{
+        		let tmp1=document.getElementById("firstnum");
+            		if (isNaN(tmp1.value))
+            		{
+            			showError("Please choose a number for first number");      
+            		}
+            
+           	 	let tmp2=document.getElementById("secondnum");
+            		if (isNaN(tmp2.value))
+            		{
+            			showError("Please choose a number for first number"); 
+            		}
+        	}
+
+		function checkValid(frm){
+			document.getElementById("result").value = "";
+   	     		var num1 = frm.firstnum.value;
+			var num2 = frm.secondnum.value;
+			var op = frm.Op.value;
+            		if (num1.length == 0){
+            			showError("First number is blank!");
+                		return false;
+            		}
+            		if (num2.length == 0){
+            			showError("Second number is blank!");
+                		return false;
+            		}
+			if (op == ""){
+				showError("Please choose one operator");
+				return false;
+			}
+			if (op == "divide" && num2 == "0"){
+				showError("Can not divide for 0");
+				return false;
+			}
+            		showError("");
+			return true;
+        	}
+
+		function showError(errorStr){
+        		var temp=document.getElementById("errorNotice");
+            		temp.value=errorStr;
+        	}
+	</script>
